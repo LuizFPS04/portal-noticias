@@ -1,17 +1,12 @@
 module.exports = (app) => {
-    app.get('/noticias', (req, res) => {
-        const mysql = require('mysql');
-        const dbConnect = mysql.createConnection({
-            host: 'localhost',
-            user: 'root',
-            password: 'admin',
-            database: 'portal'
-        });
+    app.get("/noticias", (req, res) => {
+        const dbConnect = app.config.dbConnection();
+        const noticesModel = app.app.models.noticesModel;
 
-        dbConnect.query('SELECT * FROM noticias', (error, result) => {
-            res.send(result)
+        noticesModel.getNotices(dbConnect, (error, result) => {
+            res.render("noticias/noticias", {
+                noticias: result,
+            });
         });
-
-        // res.render('noticias/noticia')
     });
-}
+};
