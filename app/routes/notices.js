@@ -1,12 +1,9 @@
 module.exports = (app) => {
     app.get("/noticias", (req, res) => {
-        const dbConnect = app.config.dbConnection();
-        const noticesModel = app.app.models.noticesModel;
+        app.app.controllers.notices.getNotices(app, req, res);
+    });
 
-        noticesModel.getNotices(dbConnect, (error, result) => {
-            res.render("noticias/noticias", {
-                noticias: result,
-            });
-        });
+    app.get("/noticia", (req, res) => {
+        app.app.controllers.notices.getNotice(app, req, res);
     });
 };
