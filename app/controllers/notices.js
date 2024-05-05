@@ -4,7 +4,7 @@ module.exports.getNotices = (app, req, res) => {
 
     noticesModel.getNotices((error, result) => {
         res.render("noticias/noticias", {
-            noticias: result,
+            notices: result,
         });
     });
 }
@@ -13,9 +13,11 @@ module.exports.getNotice = (app, req, res) => {
     const dbConnect = app.config.dbConnection();
     const noticesModel = new app.app.models.NoticesDAO(dbConnect);
 
-    noticesModel.getNotice((error, result) => {
+    let id = req.query;
+
+    noticesModel.getNotice(id, (error, result) => {
         res.render("noticias/noticia", {
-            noticia: result,
+            notice: result,
         });
     });
 }
